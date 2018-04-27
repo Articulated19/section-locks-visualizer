@@ -3,11 +3,16 @@ const app = express();
 let zookeeper = require('node-zookeeper-client');
 let client = zookeeper.createClient('localhost:2181');
 let kids = [];
-var cors = require('cors')
-app.use(cors())
+var cors = require('cors');
+app.use(cors());
 
 app.get('/sections', (req, res, next) => {
+    if (kids.length < 1) {
+        res.status(500).send('Lost connection to ZooKeeper');
+        return;
+    }
     res.setHeader('Content-Type', 'application/json');
+
     res.json(kids);
 });
 
@@ -51,6 +56,7 @@ const server = app.listen(8081, function () {
             kids = resp;
         });
         setInterval(() => {
+            kids = [];
             getAllChildren("/").then(resp => {
                 kids = resp;
             });

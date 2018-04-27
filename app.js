@@ -1,33 +1,32 @@
 (function($) {
-
-
+    let error = false;
     let sectionList = {
         "Intersection_1": {
             min_x: 550 * 0.1,
-            max_x: 1800 * 0.1,
-            min_y: 5600 * 0.1,
-            max_y: 7300 * 0.1,
+            max_x: 1400 * 0.1,
+            min_y: 5850 * 0.1,
+            max_y: 7150 * 0.1,
             subsections: []
         },
         "Intersection_2": {
             min_x: 550 * 0.1,
-            max_x: 1800 * 0.1,
-            min_y: 2700 * 0.1,
-            max_y: 5200 * 0.1,
+            max_x: 1430 * 0.1,
+            min_y: 3300 * 0.1,
+            max_y: 4600 * 0.1,
             subsections: []
         },
         "Intersection_3": {
-            min_x: 2700 * 0.1,
-            max_x: 3950 * 0.1,
-            min_y: 5600 * 0.1,
-            max_y: 7300 * 0.1,
+            min_x: 3050 * 0.1,
+            max_x: 3900 * 0.1,
+            min_y: 5850 * 0.1,
+            max_y: 7150 * 0.1,
             subsections: []
         },
         "Roundabout": {
-            min_x: 2200 * 0.1,
-            max_x: 4600 * 0.1,
-            min_y: 2700 * 0.1,
-            max_y: 5200 * 0.1,
+            min_x: 2375 * 0.1,
+            max_x: 4650 * 0.1,
+            min_y: 2800 * 0.1,
+            max_y: 5150 * 0.1,
             subsections: []
         },
         "Left_Curve": {
@@ -52,11 +51,20 @@
             method: 'get',
             crossDomain: true,
             success: function (resp) {
+                $('.warning').hide();
+                $('.successful').show();
+
+                error = false;
                 $('#nodes').empty();
                 $('#nodes').append('<li>/</li>');
                 let nodeArr = parseNodes(resp);
                 delete nodeArr[0];
-                sortNodes(nodeArr)
+                sortNodes(nodeArr);
+            },
+            error: function() {
+                $('.successful').hide();
+                $('.warning').show();
+                error = true;
             }
         });
     }
@@ -98,27 +106,15 @@
                             cname  = "bl";
                             break;
                         case "k4":
-                            cname  = "tr";
+                            cname  = "br";
                             break;
                     }
 
                     let booked = subnode.nodes.length > 0 ? "ss-booked" : "";
-                    innerWrap.append('<div class="'+cname+'-ss ss ' + booked + '"></div>');
+                    innerWrap.append('<div class="'+subnode.name + ' ' +cname+'-ss ss ' + booked + '"></div>');
                 }
 
             }
-
-
-
-            if (node.name == "Right_Curve" || node.name == "Left_Curve") {
-
-            } else {
-
-                innerWrap.append('<div class="tr-ss ss"></div>');
-                innerWrap.append('<div class="bl-ss ss"></div>');
-                innerWrap.append('<div class="br-ss ss"></div>');
-            }
-
 
         }
 

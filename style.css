@@ -1,5 +1,6 @@
 body {
     background-color: #000;
+    padding-top: 35px;
 }
 #map {
     position: relative;
@@ -54,4 +55,20 @@ body {
 
 .ss-booked {
     background: rgba(255,0,0,0.4);
+}
+
+.warning {
+    width:1015px;
+    text-align: center;
+    display: none;
+    font-size: 48px;
+    color: red;
+}
+
+.successful {
+    width:1015px;
+    text-align: center;
+    display: none;
+    font-size: 48px;
+    color: rgba(108, 255, 110, 0.73);
 }
